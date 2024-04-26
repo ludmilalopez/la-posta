@@ -5,7 +5,7 @@
 }
 
 body {
-    margin: 0;
+    height: 100vh;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
 }
 
@@ -22,7 +22,7 @@ h2 {
     overflow: hidden;
     background-color: #0E46A3;
     display: flex;
-    display: flex;
+    align-items: center;
     justify-content: space-around;
 }
 
@@ -176,9 +176,11 @@ span.psw {
 /* MAIN */
 
 .container-main {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
+    display: grid;
+    grid-template-areas: 
+    "NOTI SIDE"
+    ;
 }
 
 main {
@@ -186,8 +188,30 @@ main {
 }
 
 .sidebar {
-    width: 250px;
-    margin-left: 20px;
+    grid-area: SIDE;
+    background-color: #00000042;
+    padding: 5%;
+}
+.sidebar li, .sidebar a {
+    list-style-type: none;
+    text-decoration: none;
+    font-size: 1.2em;
+    margin-bottom: 10%;
+    color: black;
+}
+.sidebar ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar li:hover {
+    transform: scale(1.1);
+}
+
+.sbTitle {
+    padding: 0;
+    align-items: center;
 }
 
 .registrarsebtn {
@@ -240,6 +264,9 @@ main {
     background-color: rgba(0, 0, 0, 0.215);
     padding: 2%;
     border-radius: 5px;
+    margin: 1%;
+text-align: center;
+font-size: 15px;
 }
 
 .dropdownCont {
@@ -300,10 +327,10 @@ main {
     }
 }
 
-/*
 
 .noticias {
     display: grid;
+    grid-area: NOTI;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 15px;
 }
@@ -327,12 +354,49 @@ main {
     height: auto;
 }
 
-.container-main {
-    display: flex;
-}
-
 .noticias {
     flex: 1;
 }
 
-*/
+.noticiaCont {
+    width: 100%;
+}
+
+#slideCont {
+    width: 100%;
+    height: 650px;
+    /* background-color: #808080; */
+    overflow: scroll;
+}
+
+.slide {
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+}
+
+.slide1, .slide2, .slide3 {
+    background-image: url(F92x1ieXAAA4BA0.jpeg);   
+}
+
+.slideCont2 {
+    width: 300%;
+    height: 100%;
+    display: flex;
+}
+
+
+
+@media (max-width:772px) {
+    .container-main {
+        grid-template-areas: 
+        "SIDE SIDE"
+        "NOTI NOTI";
+    }
+    .sidebar li {
+        margin: 0;
+    }
+    .sidebar ul {
+        align-items: flex-start;
+    }
+}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,6 +47,7 @@
     </style>
 
 </head>
+
 <body>
     <header class="topnav" id="myTopnav">
         <div class="headerNewsCont">
@@ -61,8 +63,10 @@
             <div class="dropdownHeader">
                 <div class="dropdownTitle">
                     <p class="category">Categorías</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4" />
                     </svg>
                 </div>
                 <div class="dropdownCont">
@@ -73,7 +77,7 @@
                     <a class="dropdownCategory" href="policiales.html">Policiales</a>
                     <a class="dropdownCategory" href="tecno.html">Tecnología</a>
                 </div>
-            </div>            
+            </div>
         </div>
         <div class="headerUserCont">
             <a href="noticia.html">¡CREA TU NOTICIA!</a>
@@ -81,30 +85,36 @@
         </div>
     </header>
 
-    <h2>¡CREA TU NOTICIA!</h2>
-    <form action="noticia.html" method="post" enctype="multipart/form-data">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
 
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required>
+    <form action="noticia.html" method="post" class="container sessionCont">
+        <div class="container formCont noticiaCont">
+            <h1>¡CREA TU NOTICIA!</h1>
+            <p>Completá todos los campos</p>
 
-        <label for="categoria">Categoría:</label>
-        <input type="text" id="categoria" name="categoria" required>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
 
-        <label for="titulo">Título:</label>
-        <input type="text" id="titulo" name="titulo" required>
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required>
 
-        <label for="subtitulo">Subtítulo:</label>
-        <input type="text" id="subtitulo" name="subtitulo" required>
+            <label for="categoria">Categoría:</label>
+            <input type="text" id="categoria" name="categoria" required>
 
-        <label for="cuerpo">Cuerpo:</label>
-        <textarea id="cuerpo" name="cuerpo" rows="6" required></textarea>
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo" required>
 
-        <label for="imagen">Subir Imagen:</label>
-        <input type="file" id="imagen" name="imagen" accept="image/*" required>
+            <label for="subtitulo">Subtítulo:</label>
+            <input type="text" id="subtitulo" name="subtitulo" required>
 
-        <input type="submit" value="Enviar">
+            <label for="cuerpo">Cuerpo:</label>
+            <textarea id="cuerpo" name="cuerpo" rows="6" required></textarea>
+
+            <label for="imagen">Subir Imagen:</label>
+            <input type="file" id="imagen" name="imagen" accept="image/*" required>
+
+            <input type="submit" value="Enviar">
+        </div>
     </form>
 </body>
+
 </html>
