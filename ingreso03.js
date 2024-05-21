@@ -5,10 +5,10 @@ const $nombre = document.getElementById("nombre");
 const $apellido = document.getElementById("apellido");
 const $usuario = document.getElementById("usuario");
 const $email = document.getElementById("email");
-const $contraseña = document.getElementById("contraseña");
-const $repetircontraseña = document.getElementById("repetircontraseña");
+const $contraseña = document.getElementById("psw");
+const $repetircontraseña = document.getElementById("psw-repeat");
 
-function validateInputs() {
+submit.onclick= (event) => {
     const nombreRegex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ]{2,24}$/;
     const apellidoRegex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ]{2,32}$/;
     const usuarioRegex = /^[a-zA-Z0-9]{4,16}$/;
@@ -75,11 +75,6 @@ function validateInputs() {
     if (!contraseñaRegex.test($contraseña.value)) {
         alert("La contraseña no cumple con las condiciones");
         $contraseña.style.border = "1px solid red";
-        return false;
-    }
-    if ($repetircontraseña.value !== $contraseña.value) {
-        alert("La contraseña no coincide con la repetida");
-        $repetircontraseña.style.border = "1px solid red";
         return false;
     }
     return true;

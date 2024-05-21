@@ -3,13 +3,13 @@
 const $submit = document.getElementById("submit");
 const $nombre = document.getElementById("nombre");
 const $apellido = document.getElementById("apellido");
-const $categoria = document.getElementById("categoría");
+const $categoria = document.getElementById("categoria");
 const $titulo = document.getElementById("titulo");
 const $subtitulo = document.getElementById("subtitulo");
 const $cuerpo = document.getElementById("cuerpo");
 const $imagen = document.getElementById("imagen");
 
-function validateInputs() {
+submit.onclick= (event) => {
     const nombreRegex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ]{2,24}$/;
     const apellidoRegex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ]{2,32}$/;
     const categoriaRegex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜ]{4,32}$/;

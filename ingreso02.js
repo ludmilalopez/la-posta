@@ -36,12 +36,6 @@ submit.onclick= (event) => {
         $email.style.border = "1px solid red";
         return false;
     }
-    // if (!contraseñaRegex.test($contraseña.value)) {
-    //     event.preventDefault();
-    //     alert("La contraseña no cumple con las condiciones");
-    //     $contraseña.style.border = "1px solid red";
-    //     return false;
-    // }
     return true;
 }
 
