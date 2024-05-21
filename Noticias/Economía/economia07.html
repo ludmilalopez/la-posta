@@ -2,10 +2,47 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>HTML5</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../styles.css">
+        <title>Economía</title>
     </head>
     <body>
-        <h1>Un fondo global destaca el potencial de la Argentina para atraer inversiones y “crear dólares en los próximos 10 años”</h1>
+        <header class="topnav" id="myTopnav">
+            <div class="headerNewsCont">
+                <a href="../../main.html" class="active category">INICIO</a>
+                <div class="webHeader">
+                    <a class="category" href="../../deportes.html">Deportes</a>
+                    <a class="category" href="../../economia.html">Economía</a>
+                    <a class="category" href="../../politica.html">Política</a>
+                    <a class="category" href="../../sociedad.html">Sociedad</a>
+                    <a class="category" href="../../policiales.html">Policiales</a>
+                    <a class="category" href="../../tecno.html">Tecnología</a>
+                </div>
+                <div class="dropdownHeader">
+                    <div class="dropdownTitle">
+                        <p class="category">Categorías</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/>
+                        </svg>
+                    </div>
+                    <div class="dropdownCont">
+                        <a class="dropdownCategory" href="../../deportes.html">Deportes</a>
+                        <a class="dropdownCategory" href="../../economia.html">Economía</a>
+                        <a class="dropdownCategory" href="../../politica.html">Política</a>
+                        <a class="dropdownCategory" href="../../sociedad.html">Sociedad</a>
+                        <a class="dropdownCategory" href="../../policiales.html">Policiales</a>
+                        <a class="dropdownCategory" href="../../tecno.html">Tecnología</a>
+                    </div>
+                </div>            
+            </div>
+            <div class="headerUserCont">
+                <a href="../../noticia.html">¡CREA TU NOTICIA!</a>
+                <a href="../../login.html">INICIAR SESIÓN</a>
+            </div>
+        </header>
+        <div class="container-main">
+            <div class="articulo">
+                <h1>Un fondo global destaca el potencial de la Argentina para atraer inversiones y “crear dólares en los próximos 10 años”</h1>
         <h2>Fernando Grisales, Senior Portfolio Manager de Schroders, precisó que las exportaciones de energía, litio y el agro combinadas con reformas y un plan fiscal, garantizarán el ingreso de divisas en el largo plazo</h2>
         <h3>23 Abr, 2024 01:58 a.m. AR</h3>
         <img src="https://www.infobae.com/new-resizer/H82X1nau2vBWSgo3US6DWB9UthA=/768x512/filters:format(webp):quality(85)/cloudfront-us-east-1.images.arcpublishing.com/infobae/LUJGLNYQABRH6XE56KXOVZHDPY.jpg">
@@ -20,5 +57,28 @@
         <p>Para el directivo de Schroders, “el 2024 es un año de normalización tras un nivel de inflación alto en la mayoría de los países, y el 2025 va a ser un año en el cual las tasas reales se normalicen a nivel latinoamericano, que sería muy positivo, pero por ahora la prioridad es bajar la inflación a un nivel de un 5% menos en muchos países emergentes, para hacer una convergencia con los EEUU”.</p>
         <p>Grisales precisó que “en el corto plazo los mercados estuvieron haciendo un repricing de las previsiones de recorte de tasas de la Fed. Cuando el real brasileño estaba debajo de 5 reales por dólar, estaba la expectativa de que la Fed iba a recortar la tasa más rápido, entonces el valor del dólar es menos porque el rendimiento de la tasa en dólares hacia fin de año iba a ser mucho menos. Ese repricing ha ocurrido, eso encuentra un valor interesante en las monedas latinoamericanas, porque los bancos centrales van a ser más pacientes con esa ancla de la tasa real. Estamos mirando mucho las exportaciones e importaciones, el nivel de balanza comercial en Latinoamérica sigue muy positivo en muchos países. La devaluación en la moneda brasileña a 5,20 (reales por dólar) de las últimas dos semanas fue más idiosincrásico por el nivel fiscal; el nivel fiscal en los próximos dos o tres años va a ser menos fuerte que lo que el mercado esperaba y sucedió una corrección sobre eso”.</p>
         <p>Schroders fue la primera compañía internacional de gestión de inversiones en establecerse en Argentina. Se instauró en 1932 y desde 1994 realiza inversiones en el país. “Schroders es un asset manager global, con más de 220 años de actividad. En la Argentina estamos presentes en forma ininterrumpida desde 1932, somos la gestora independiente más grande del país y manejamos alrededor USD 800.000 millones a nivel internacional y en Argentina tenemos un negocio de unos USD 1.400 millones invertidos, donde somos inversores de largo plazo”, explicó Mariano Fiorito, Country Head para Argentina y Uruguay de la compañía.</p>
+                
+            </div>
+            <div class="noticia">
+                <h2>Título del artículo</h2>
+                <p>Contenido del artículo...</p>
+                <button class="like-btn">Me gusta</button>
+                <textarea class="comment-box" placeholder="Escribe tu comentario..."></textarea>
+                <button class="comment-btn">Comentar</button>
+                <div class="comments">
+                </div>
+            </div>
+            <div class="sidebar">
+                <h2 class="sbTitle">Otras Noticias</h2>
+                <ul>
+                    <li><a href="Noticias/Deportes/deportes01.html">Emiliano “Dibu” Martínez atajó dos penales ante Lille y Aston Villa pasó a las semifinales de la Conference League</a></li>
+                    <li><a href="Noticias/Politica/politica01.html">Javier Milei participa del Foro Llao Llao ante empresarios en Bariloche: cómo será su agenda</a></li>
+                    <li><a href="Noticias/Sociedad/sociedad01.html">La Ciudad amplía el estacionamiento medido a otro barrio porteño</a></li>
+                    <li><a href="Noticias/Tecnología/tecno01.html">Conoce el robot humanoide que llegó a Argentina</a></li>
+                    <li><a href="Noticias/Economía/economia01.html">El gobierno quiere restringir el Pacto de Mayo a lo economicó y está dispuesto a sacrificar uno de los diez artículos</a></li>
+                    <li><a href="Noticias/Policiales/policial01.html">Detuvieron al segundo prófugo por el crimen del hombre que mataron delante de su hijo de 4 años en Lanús</a></li>
+                </ul>
+            </div>
+        </div>
     </body>
 </html>

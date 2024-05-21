@@ -9,15 +9,6 @@ body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
 }
 
-h2 {
-    font-size: 24px; /* Tamaño de fuente */
-    font-weight: bold; /* Negrita */
-    color: #1E0342; /* Color de texto */
-    margin-bottom: 10px; /* Margen inferior */
-    padding-left: 50px;
-}
-
-
 .topnav {
     overflow: hidden;
     background-color: #0E46A3;
@@ -93,7 +84,6 @@ h2 {
 
 /*todo lo de arriba es del top nav*/
 
-/* Full-width inputs */
 input[type=text], input[type=password] {
     width: 100%;
     padding: 12px 20px;
@@ -103,7 +93,6 @@ input[type=text], input[type=password] {
     box-sizing: border-box;
 }
 
-/* Set a style for all buttons */
 button {
     background-color: #0E46A3;
     color: #E1F7F5;
@@ -114,13 +103,11 @@ button {
     width: 100%;
 }
 
-/* Add a hover effect for buttons */
 button:hover {
     background-color: #E1F7F5;
     color: black;
 }
 
-/* Extra style for the cancel button (red) */
 .cancelbtn {
     width: auto;
     padding: 10px 20px;
@@ -131,9 +118,7 @@ button:hover {
     background-color: rgba(255, 0, 0, 0.7);
 }
 
-/* Add padding to containers */
 .container {
-    /* padding: 30px 400px; */
     min-height: 80%;
 }
 
@@ -151,7 +136,6 @@ button:hover {
     flex-direction: column;
 }
 
-/* The "Forgot password" y ya tenes cuenta text */
 span.psw {
     text-align: center;
     padding-top: 5px;
@@ -162,7 +146,6 @@ span.log {
     padding-top: 5px;
 }
 
-/* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
 span.psw {
     display: block;
@@ -171,47 +154,6 @@ span.psw {
 .cancelbtn {
     width: 100%;
 }
-}
-
-/* MAIN */
-
-.container-main {
-    /* margin: 0 auto; */
-    display: grid;
-    grid-template-areas: 
-    "NOTI SIDE"
-    ;
-}
-
-main {
-    padding: 100px 50px;
-}
-
-.sidebar {
-    grid-area: SIDE;
-    background-color: #00000042;
-    padding: 5%;
-}
-.sidebar li, .sidebar a {
-    list-style-type: none;
-    text-decoration: none;
-    font-size: 1.2em;
-    margin-bottom: 10%;
-    color: black;
-}
-.sidebar ul {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.sidebar li:hover {
-    transform: scale(1.1);
-}
-
-.sbTitle {
-    padding: 0;
-    align-items: center;
 }
 
 .registrarsebtn {
@@ -265,8 +207,8 @@ main {
     padding: 2%;
     border-radius: 5px;
     margin: 1%;
-text-align: center;
-font-size: 15px;
+    text-align: center;
+    font-size: 15px;
 }
 
 .dropdownCont {
@@ -327,69 +269,37 @@ font-size: 15px;
     }
 }
 
-
-.noticias {
-    display: grid;
-    grid-area: NOTI;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 15px;
+main {
+    padding: 100px 50px;
 }
 
-.noticias article {
-    border: 1px;
-    padding: 5px;
+.sidebar {
+    grid-area: SIDE;
+    background-color: #00000042;
+    padding: 4%;
+    max-width: 25%;
+    margin-left: auto;
 }
-
-.noticias article h2 {
-    font-size: 25px;
-    margin-bottom: 10px;
+.sidebar li, .sidebar a {
+    list-style-type: none;
+    text-decoration: none;
+    font-size: 1.2em;
+    margin-bottom: 10%;
+    color: black;
 }
-
-.noticias article p {
-    margin-bottom: 15px;
-}
-
-.noticias article img {
-    width: 100%;
-    height: auto;
-}
-
-.noticias {
-    flex: 1;
-}
-
-.noticiaCont {
-    width: 100%;
-}
-
-#slideCont {
-    width: 100%;
-    height: 650px;
-    /* background-color: #808080; */
-    overflow: scroll;
-}
-
-.slide {
-    height: 100%;
-    width: 100%;
-    background-size: cover;
-}
-
-.slide1, .slide2, .slide3 {
-    background-image: url(F92x1ieXAAA4BA0.jpeg);   
-}
-
-.slideCont2 {
-    width: 300%;
-    height: 100%;
+.sidebar ul {
     display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-
+.sidebar li:hover {
+    transform: scale(1.05);
+}
 
 @media (max-width:772px) {
     .container-main {
-        grid-template-areas: 
+        grid-template-areas:
         "SIDE SIDE"
         "NOTI NOTI";
     }
@@ -399,4 +309,124 @@ font-size: 15px;
     .sidebar ul {
         align-items: flex-start;
     }
+ }
+ 
+
+.sbTitle {
+    padding: 0;
+    align-items: center;
+}
+
+.noticiaCont {
+    width: 100%;
+}
+
+#slideCont {
+    width: 100%;
+    height: 650px;
+    overflow: scroll;
+}
+
+.slide {
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+}
+
+.slide1 {
+    background-image: url(Noticias/Sociedad/sociedad03.jpeg);   
+}
+
+.slide2 {
+    background-image: url(Noticias/Policiales/policial02.jpeg);
+}
+
+.slide3 {
+    background-image: url(Noticias/Economía/economia03.jpeg);   
+}
+
+.slide4 {
+    background-image: url(Noticias/Deportes/deportes04.jpeg);   
+}
+
+.slide5 {
+    background-image: url(Noticias/Tecnología/tecno04.jpeg);   
+}
+
+.slide6 {
+    background-image: url(Noticias/Politica/politica05.jpeg);   
+}
+
+.slideCont2 {
+    width: 300%;
+    height: 100%;
+    display: flex;
+}
+
+/* NUEVO */
+.container-main {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.noticias {
+    flex: 2;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.noticia {
+    border: 1px;
+    padding: 10px;
+    margin-bottom: 0px;
+}
+
+.noticia h2 {
+    margin-top: 0px;
+    margin-bottom: 3px;
+}
+
+.noticia img {
+    max-width: 40%;
+    height: auto;
+}
+
+
+.articulo {
+    flex: 2;
+    border: 1px;
+    padding: 20px;
+    margin-right: 10px;
+}
+
+.articulo h1 {
+    font-size: 40px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.articulo h2 {
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.articulo h3 {
+    font-size: 15px;
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #999;
+}
+
+.articulo img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.articulo p {
+    margin-top: 0;
+    margin-bottom: 13px;
+    line-height: 1.6;
 }
