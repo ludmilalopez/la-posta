@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,7 +6,6 @@
     <link rel="stylesheet" href="styles.css">
     <title>La Posta</title>
 </head>
-
 <body>
     <header class="topnav" id="myTopnav">
         <div class="headerNewsCont">
@@ -40,5 +40,65 @@
             <a href="comentariosAdm.html">COMENTARIOS</a>
         </div>
     </header>
+    
+    <main>
+        <section>
+            <h2>Administrar Comentarios</h2>
+            <div id="commentsSection">
+                <div class="commentBox">
+                    <p><strong>Usuario 1:</strong> Este es un comentario de ejemplo.</p>
+                    <label for="commentStatus1">Estado del Comentario:</label>
+                    <select id="commentStatus1" name="commentStatus1">
+                        <option value="publicado">Publicado</option>
+                        <option value="no-publicado">No Publicado</option>
+                    </select>
+                </div>
+                <div class="commentBox">
+                    <p><strong>Usuario 2:</strong> Otro comentario de ejemplo.</p>
+                    <label for="commentStatus2">Estado del Comentario:</label>
+                    <select id="commentStatus2" name="commentStatus2">
+                        <option value="publicado">Publicado</option>
+                        <option value="no-publicado">No Publicado</option>
+                    </select>
+                </div>
+                <div class="commentBox">
+                    <p><strong>Usuario 3:</strong> Más comentarios de ejemplo.</p>
+                    <label for="commentStatus3">Estado del Comentario:</label>
+                    <select id="commentStatus3" name="commentStatus3">
+                        <option value="publicado">Publicado</option>
+                        <option value="no-publicado">No Publicado</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var dropdown = document.querySelector('.dropdownTitle');
+            dropdown.addEventListener('click', function() {
+                var dropdownContent = document.querySelector('.dropdownCont');
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function(event) {
+                if (!event.target.matches('.dropdownTitle, .dropdownTitle *')) {
+                    var dropdowns = document.getElementsByClassName("dropdownCont");
+                    for (var i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.style.display === "block") {
+                            openDropdown.style.display = "none";
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
+

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,7 +6,6 @@
     <link rel="stylesheet" href="styles.css">
     <title>La Posta</title>
 </head>
-
 <body>
     <header class="topnav" id="myTopnav">
         <div class="headerNewsCont">
@@ -40,5 +40,68 @@
             <a href="comentariosAdm.html">COMENTARIOS</a>
         </div>
     </header>
+    
+    <main>
+        <section>
+            <h2>Administrar Noticias</h2>
+            <div id="newsSection">
+                <div class="newsBox">
+                    <p><strong>Título:</strong> Noticia 1</p>
+                    <p><strong>Contenido:</strong> Este es un contenido de ejemplo para la noticia 1.</p>
+                    <label for="newsStatus1">Estado de la Noticia:</label>
+                    <select id="newsStatus1" name="newsStatus1">
+                        <option value="publicado">Publicado</option>
+                        <option value="no-publicado">No Publicado</option>
+                    </select>
+                </div>
+                <div class="newsBox">
+                    <p><strong>Título:</strong> Noticia 2</p>
+                    <p><strong>Contenido:</strong> Este es un contenido de ejemplo para la noticia 2.</p>
+                    <label for="newsStatus2">Estado de la Noticia:</label>
+                    <select id="newsStatus2" name="newsStatus2">
+                        <option value="publicado">Publicado</option>
+                        <option value="no-publicado">No Publicado</option>
+                    </select>
+                </div>
+                <div class="newsBox">
+                    <p><strong>Título:</strong> Noticia 3</p>
+                    <p><strong>Contenido:</strong> Este es un contenido de ejemplo para la noticia 3.</p>
+                    <label for="newsStatus3">Estado de la Noticia:</label>
+                    <select id="newsStatus3" name="newsStatus3">
+                        <option value="publicado">Publicado</option>
+                        <option value="no-publicado">No Publicado</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var dropdown = document.querySelector('.dropdownTitle');
+            dropdown.addEventListener('click', function() {
+                var dropdownContent = document.querySelector('.dropdownCont');
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function(event) {
+                if (!event.target.matches('.dropdownTitle, .dropdownTitle *')) {
+                    var dropdowns = document.getElementsByClassName("dropdownCont");
+                    for (var i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.style.display === "block") {
+                            openDropdown.style.display = "none";
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
+
