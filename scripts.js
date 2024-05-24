@@ -1,7 +1,5 @@
 //comentarios y noticias admin
 
-//comentariosAdm.html
-
 document.addEventListener('DOMContentLoaded', function() {
     var dropdown = document.querySelector('.dropdownTitle');
     dropdown.addEventListener('click', function() {
@@ -25,6 +23,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-
-//noticiasAdm.html
-
