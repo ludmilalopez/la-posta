@@ -487,3 +487,16 @@ main {
 textarea {
     width: 100%;
 }
+
+.like-button {
+    display: inline-block;
+}
+
+.like {
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    background-repeat: no-repeat;
+}
