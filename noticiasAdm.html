@@ -42,66 +42,91 @@
     </header>
     
     <main>
-        <section>
-            <h2>Administrar Noticias</h2>
-            <div id="newsSection">
-                <div class="newsBox">
-                    <p><strong>Título:</strong> Noticia 1</p>
-                    <p><strong>Contenido:</strong> Este es un contenido de ejemplo para la noticia 1.</p>
-                    <label for="newsStatus1">Estado de la Noticia:</label>
-                    <select id="newsStatus1" name="newsStatus1">
-                        <option value="publicado">Publicado</option>
-                        <option value="no-publicado">No Publicado</option>
-                    </select>
+        <section class="notiAdm-container">
+            <h2>ADMINISTRADOR DE NOTICIAS DEL USUARIO</h2>
+            <div id="notiAdm">
+                <div class="notiBox">
+                    <p><strong>Título:</strong> Noticia (del formulario)</p>
+                    <p><strong>Contenido:</strong> Contenido (del formulario)</p>
+                    <div class="notiStatBox">
+                        <label for="notiStat1">ESTADO</label>
+                        <select id="notiStat1" name="notiStat1">
+                            <option value="publicado">PUBLICADO</option>
+                            <option value="no-publicado">NO PUBLICADO</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="newsBox">
-                    <p><strong>Título:</strong> Noticia 2</p>
-                    <p><strong>Contenido:</strong> Este es un contenido de ejemplo para la noticia 2.</p>
-                    <label for="newsStatus2">Estado de la Noticia:</label>
-                    <select id="newsStatus2" name="newsStatus2">
-                        <option value="publicado">Publicado</option>
-                        <option value="no-publicado">No Publicado</option>
-                    </select>
+                <div class="notiBox">
+                    <p><strong>Título:</strong> Noticia (del formulario)</p>
+                    <p><strong>Contenido:</strong> Contenido (del formulario)</p>
+                    <div class="notiStatBox">
+                        <label for="notiStat1">ESTADO</label>
+                        <select id="notiStat1" name="notiStat1">
+                            <option value="publicado">PUBLICADO</option>
+                            <option value="no-publicado">NO PUBLICADO</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="newsBox">
-                    <p><strong>Título:</strong> Noticia 3</p>
-                    <p><strong>Contenido:</strong> Este es un contenido de ejemplo para la noticia 3.</p>
-                    <label for="newsStatus3">Estado de la Noticia:</label>
-                    <select id="newsStatus3" name="newsStatus3">
-                        <option value="publicado">Publicado</option>
-                        <option value="no-publicado">No Publicado</option>
-                    </select>
+                <div class="notiBox">
+                    <p><strong>Título:</strong> Noticia (del formulario)</p>
+                    <p><strong>Contenido:</strong> Contenido (del formulario)</p>
+                    <div class="notiStatBox">
+                        <label for="notiStat1">ESTADO</label>
+                        <select id="notiStat1" name="notiStat1">
+                            <option value="publicado">PUBLICADO</option>
+                            <option value="no-publicado">NO PUBLICADO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="notiBox">
+                    <p><strong>Título:</strong> Noticia (del formulario)</p>
+                    <p><strong>Contenido:</strong> Contenido (del formulario)</p>
+                    <div class="notiStatBox">
+                        <label for="notiStat1">ESTADO</label>
+                        <select id="notiStat1" name="notiStat1">
+                            <option value="publicado">PUBLICADO</option>
+                            <option value="no-publicado">NO PUBLICADO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="notiBox">
+                    <p><strong>Título:</strong> Noticia (del formulario)</p>
+                    <p><strong>Contenido:</strong> Contenido (del formulario)</p>
+                    <div class="notiStatBox">
+                        <label for="notiStat1">ESTADO</label>
+                        <select id="notiStat1" name="notiStat1">
+                            <option value="publicado">PUBLICADO</option>
+                            <option value="no-publicado">NO PUBLICADO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="notiBox">
+                    <p><strong>Título:</strong> Noticia (del formulario)</p>
+                    <p><strong>Contenido:</strong> Contenido (del formulario)</p>
+                    <div class="notiStatBox">
+                        <label for="notiStat1">ESTADO</label>
+                        <select id="notiStat1" name="notiStat1">
+                            <option value="publicado">PUBLICADO</option>
+                            <option value="no-publicado">NO PUBLICADO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="notiBox">
+                    <p><strong>Título:</strong> Noticia (del formulario)</p>
+                    <p><strong>Contenido:</strong> Contenido (del formulario)</p>
+                    <div class="notiStatBox">
+                        <label for="notiStat1">ESTADO</label>
+                        <select id="notiStat1" name="notiStat1">
+                            <option value="publicado">PUBLICADO</option>
+                            <option value="no-publicado">NO PUBLICADO</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var dropdown = document.querySelector('.dropdownTitle');
-            dropdown.addEventListener('click', function() {
-                var dropdownContent = document.querySelector('.dropdownCont');
-                if (dropdownContent.style.display === "block") {
-                    dropdownContent.style.display = "none";
-                } else {
-                    dropdownContent.style.display = "block";
-                }
-            });
-
-            // Close the dropdown if the user clicks outside of it
-            window.onclick = function(event) {
-                if (!event.target.matches('.dropdownTitle, .dropdownTitle *')) {
-                    var dropdowns = document.getElementsByClassName("dropdownCont");
-                    for (var i = 0; i < dropdowns.length; i++) {
-                        var openDropdown = dropdowns[i];
-                        if (openDropdown.style.display === "block") {
-                            openDropdown.style.display = "none";
-                        }
-                    }
-                }
-            }
-        });
-    </script>
+    <script src="scripts.js"></script>
 </body>
 </html>
 

@@ -431,13 +431,15 @@ main {
     line-height: 1.6;
 }
 
+.comAdm-container {
+    padding: 10px;
+}
 
-/* Styles for comments section */
-#commentsSection {
+#comAdm {
     margin-top: 20px;
 }
 
-.commentBox {
+.comBox {
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 10px;
@@ -445,15 +447,36 @@ main {
     background-color: #f9f9f9;
 }
 
-.comment p {
+.comBox p {
     margin: 0 0 10px;
 }
-#newsSection {
-    margin-top: 20px;
+
+.comStatBox {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
 }
 
-.newsBox {
+.notiAdm-container {
+    padding: 10px;
+}
+
+#notiAdm {
+    margin-top: 5px;
+}
+
+.notiBox {
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.notiStatBox {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
 }
