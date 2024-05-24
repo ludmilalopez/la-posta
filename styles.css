@@ -363,7 +363,6 @@ main {
     display: flex;
 }
 
-/* NUEVO */
 .container-main {
     display: flex;
     flex-wrap: wrap;
@@ -436,7 +435,7 @@ main {
 }
 
 #comAdm {
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
 .comBox {
@@ -479,4 +478,12 @@ main {
     justify-content: flex-end;
     align-items: center;
     gap: 10px;
+}
+
+.admin-main {
+    padding: 20px;
+}
+
+textarea {
+    width: 100%;
 }
