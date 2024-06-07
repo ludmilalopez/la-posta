@@ -49,12 +49,17 @@ VALUES
 
 SELECT * FROM tipo_usuario;
 
-INSERT INTO noticias
-(id,id_usuario,id_categoria,fecha_hora,titulo,subtitulo,cuerpo,img,id_estado)
+INSERT INTO estado
+(id,nombre)
 VALUES
-(NULL,2,2,"2024-01-02 20:40:50","Policia mato un ladron","Hernesto segundo decidio matarlo con alto fierro","aaa","https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.wikipedia.org%2Fwiki%2FPolic%25C3%25ADa&psig=AOvVaw2TpoXmLWA2pz0tSPE06EYB&ust=1717823023972000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCLjPxsvbyIYDFQAAAAAdAAAAABAE",1);
+(NULL,"PUBLICADO");
 
-SELECT * FROM noticias;
+INSERT INTO estado
+(id,nombre)
+VALUES
+(NULL,"NO PUBLICADO");
+
+SELECT * FROM estado;
 
 INSERT INTO categoria
 (id,nombre,descripcion)
@@ -82,17 +87,12 @@ VALUES
 
 SELECT * FROM categoria;
 
-INSERT INTO estado
-(id,nombre)
+INSERT INTO noticias
+(id,id_usuario,id_categoria,fecha_hora,titulo,subtitulo,cuerpo,img,id_estado)
 VALUES
-(NULL,"PUBLICADO");
+(NULL,2,2,"2024-01-02 20:40:50","Policia mato un ladron","Hernesto segundo decidio matarlo con alto fierro","aaa","https://www.google.com/url?sa=i&url=https%3A%2F%2Fes.wikipedia.org%2Fwiki%2FPolic%25C3%25ADa&psig=AOvVaw2TpoXmLWA2pz0tSPE06EYB&ust=1717823023972000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCLjPxsvbyIYDFQAAAAAdAAAAABAE",1);
 
-INSERT INTO estado
-(id,nombre)
-VALUES
-(NULL,"NO PUBLICADO");
-
-SELECT * FROM estado;
+SELECT * FROM noticias;
 
 INSERT INTO comentario
 (id,id_usuario,id_noticia,fecha_hora,contenido,id_estado)
