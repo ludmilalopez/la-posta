@@ -121,3 +121,7 @@ SELECT * FROM usuario;
 -- borrar datos 
 
 DELETE FROM tipo_usuario WHERE id=5;
+
+SELECT * FROM usuario WHERE id=3;
+
+SELECT * FROM usuario;
