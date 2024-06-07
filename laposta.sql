@@ -124,4 +124,9 @@ DELETE FROM tipo_usuario WHERE id=5;
 
 SELECT * FROM usuario WHERE id=3;
 
+
+SELECT * FROM noticias;
+
 SELECT * FROM usuario;
+SELECT * FROM usuario
+    INNER JOIN noticias on usuario.id=noticias.id_usuario;
