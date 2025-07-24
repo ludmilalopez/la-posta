@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// protección del botón "¡CREA TU NOTICIA!"
+// advertencia crear noticia sin usuario
 
 document.addEventListener("DOMContentLoaded", function () {
     const crearNoticiaBtn = document.querySelector('.headerUserCont a[href="noticia.html"]');

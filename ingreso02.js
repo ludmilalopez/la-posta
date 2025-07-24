@@ -42,7 +42,6 @@ submit.addEventListener("click", (event) => {
   }
 
   const emailLower = $email.value.toLowerCase();
-
   if (adminEmails.includes(emailLower)) {
     window.location.href = "mainAdm.html";
   } else {
