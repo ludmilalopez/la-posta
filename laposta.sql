@@ -104,10 +104,10 @@ SELECT * FROM comentario;
 INSERT INTO usuario
 (id,nombre,apellido,usuario,email,pass,id_tipo_usuario)
 VALUES
-(NULL,"Nico","Albornoz","nico","nicosalbornoz@gmail.com",1234,2),
-(NULL,"Conra","Clementi","conra","conraclemen@gmail.com",5678,2),
-(NULL,"Bruno","Zarco","brunitozarcortgames","brunitozarc@gmail.com",9012,2),
-(NULL,"Ivan","Kamerman","ivansitokamerman","ivansitokamerman@gmail.com",3456,2);
+(NULL,"Nico","Albornoz","nicolas","nicolasalbornoz@uca.edu.ar",1234,2),
+(NULL,"Conra","Clementi","conrado","conradoclementi@uca.edu.ar",1234,2),
+(NULL,"Bruno","Zarco","bruno","brunozarco@uca.edu.ar",1234,2),
+(NULL,"Ivan","Kamermann","ivan","ivankamermann@uca.edu.ar",1234,2);
 
 SELECT * FROM usuario;
 
