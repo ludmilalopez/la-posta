@@ -1,5 +1,4 @@
-//form login
-
+// form login
 
 const submit = document.getElementsByClassName('formSubmit')[0];
 const $email = document.getElementById("email");
@@ -11,37 +10,42 @@ const validateEmail = (email) => {
   );
 };
 
-submit.onclick= (event) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // const contraseñaRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+const adminEmails = [
+  "brunozarco@uca.edu.ar",
+  "conradoclementi@uca.edu.ar",
+  "ivankammerman@uca.edu.ar",
+  "nicolasalbornoz@uca.edu.ar"
+];
 
-    $email.style.border = "";
-    $contraseña.style.border = "";
+submit.addEventListener("click", (event) => {
+  event.preventDefault();
 
-    if ($email.value === "") {
-        event.preventDefault();
-        alert("El campo de email se encuentra vacío");
-        $email.style.border = "1px solid red";
-        return false;
-    }
-    if ($contraseña.value === "") {
-        event.preventDefault();
-        alert("El campo de contraseña se encuentra vacío");
-        $contraseña.style.border = "1px solid red";
-        return false;
-    }
-    if (!emailRegex.test($email.value)) {
-        event.preventDefault();
-        alert("El email no cumple con las condiciones");
-        $email.style.border = "1px solid red";
-        return false;
-    }
-    return true;
-}
+  $email.style.border = "";
+  $contraseña.style.border = "";
 
-$submit.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (validateInputs()) {
-        console.log("Formulario enviado correctamente");
-    }
+  if ($email.value === "") {
+    alert("El campo de email se encuentra vacío");
+    $email.style.border = "1px solid red";
+    return;
+  }
+
+  if ($contraseña.value === "") {
+    alert("El campo de contraseña se encuentra vacío");
+    $contraseña.style.border = "1px solid red";
+    return;
+  }
+
+  if (!validateEmail($email.value)) {
+    alert("El email no cumple con las condiciones");
+    $email.style.border = "1px solid red";
+    return;
+  }
+
+  const emailLower = $email.value.toLowerCase();
+
+  if (adminEmails.includes(emailLower)) {
+    window.location.href = "mainAdm.html";
+  } else {
+    window.location.href = "mainLog.html";
+  }
 });

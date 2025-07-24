@@ -23,3 +23,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+// protección del botón "¡CREA TU NOTICIA!"
+
+document.addEventListener("DOMContentLoaded", function () {
+    const crearNoticiaBtn = document.querySelector('.headerUserCont a[href="noticia.html"]');
+
+    if (crearNoticiaBtn) {
+        crearNoticiaBtn.addEventListener("click", function (e) {
+            const logueado = localStorage.getItem("logueado");
+            if (logueado !== "true") {
+                e.preventDefault();
+                alert("Debes iniciar sesión para crear una noticia.");
+                window.location.href = "login.html";
+            }
+        });
+    }
+});
