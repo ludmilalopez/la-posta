@@ -10,14 +10,14 @@
 <body>
     <header class="topnav" id="myTopnav">
         <div class="headerNewsCont">
-            <a href="main.html" class="active category">INICIO</a>
+            <a href="/" class="active category">INICIO</a>
             <div class="webHeader">
-                <a class="category" href="categorias/deportes.html">Deportes</a>
-                <a class="category" href="categorias/economia.html">Economía</a>
-                <a class="category" href="categorias/politica.html">Política</a>
-                <a class="category" href="categorias/sociedad.html">Sociedad</a>
-                <a class="category" href="categorias/policiales.html">Policiales</a>
-                <a class="category" href="categorias/tecno.html">Tecnología</a>
+                <a class="category" href="/deportes">Deportes</a>
+                <a class="category" href="/economia">Economía</a>
+                <a class="category" href="/politica">Política</a>
+                <a class="category" href="/sociedad">Sociedad</a>
+                <a class="category" href="/policiales">Policiales</a>
+                <a class="category" href="/tecno">Tecnología</a>
             </div>
             <div class="dropdownHeader">
                 <div class="dropdownTitle">
@@ -27,31 +27,31 @@
                     </svg>
                 </div>
                 <div class="dropdownCont">
-                    <a class="dropdownCategory" href="categorias/deportes.html">Deportes</a>
-                    <a class="dropdownCategory" href="categorias/economia.html">Economía</a>
-                    <a class="dropdownCategory" href="categorias/politica.html">Política</a>
-                    <a class="dropdownCategory" href="categorias/sociedad.html">Sociedad</a>
-                    <a class="dropdownCategory" href="categorias/policiales.html">Policiales</a>
-                    <a class="dropdownCategory" href="categorias/tecno.html">Tecnología</a>
+                    <a class="dropdownCategory" href="/deportes">Deportes</a>
+                    <a class="dropdownCategory" href="/economia">Economía</a>
+                    <a class="dropdownCategory" href="/politica">Política</a>
+                    <a class="dropdownCategory" href="/sociedad">Sociedad</a>
+                    <a class="dropdownCategory" href="/policiales">Policiales</a>
+                    <a class="dropdownCategory" href="/tecno">Tecnología</a>
                 </div>
             </div>            
         </div>
         <div class="headerUserCont">
-            <a href="noticia.html">¡CREA TU NOTICIA!</a>
-            <a href="login.html">INICIAR SESIÓN</a>
+            <a href="/noticia">¡CREA TU NOTICIA!</a>
+            <a href="/login">INICIAR SESIÓN</a>
         </div>
     </header>
 
     <div id="slideCont">
         <div class="slideCont2">
-            {% if noticias!=[] && noticias[8]==1 %}
+            {% if noticias!=[] %}
             {% for x in noticias %}
-            <a href="/noticiatemp?id={{x[0]}}" class="slide1 slide"></a>
-            <a href="/noticiatemp?id={{x[0]}}" class="slide2 slide"></a>
-            <a href="/noticiatemp?id={{x[0]}}" class="slide3 slide"></a>
-            <a href="/noticiatemp?id={{x[0]}}" class="slide4 slide"></a>
-            <a href="/noticiatemp?id={{x[0]}}" class="slide5 slide"></a>
-            <a href="/noticiatemp?id={{x[0]}}" class="slide6 slide"></a>
+            <a href="/noticias?id={{x[0]}}" class="slide1 slide"></a>
+            <a href="/noticias?id={{x[0]}}" class="slide2 slide"></a>
+            <a href="/noticias?id={{x[0]}}" class="slide3 slide"></a>
+            <a href="/noticias?id={{x[0]}}" class="slide4 slide"></a>
+            <a href="/noticias?id={{x[0]}}" class="slide5 slide"></a>
+            <a href="/noticias?id={{x[0]}}" class="slide6 slide"></a>
             {% endfor %}
             {% endif %}
         </div>
@@ -59,11 +59,11 @@
 
     <div class="container-main">
         <div class="noticias">
-            {% if noticias!=[] && noticias[8]==1%}
+            {% if noticias!=[] %}
             {% for x in noticias %}
             <div class="noticia">
                 <h2>{{x[4]}}</h2>
-                <a href="/noticiatemp?id={{x[0]}}"><img src="{{x[7]}}"></a>
+                <a href="/noticias?id={{x[0]}}"><img src="{{x[7]}}"></a>
             </div>
             {% endfor %}
             {% else %}
@@ -73,7 +73,7 @@
         <div class="sidebar">
             <h2 class="sbTitle">Otras Noticias</h2>
             <ul>
-                {% if noticias!=[] && noticias[8]==1 %}
+                {% if noticias!=[] %}
                 {% for x in noticias %}
                     <li><a href="/noticias?id={{x[0]}}">{{x[3]}}</a></li>
                 {% endfor %}

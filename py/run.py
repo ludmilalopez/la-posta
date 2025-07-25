@@ -8,7 +8,7 @@ import os
 #importo os que Gestiona acceso al sistema operativo local
 
 def main():
-    flask = Flask(__name__,template_folder="templates",static_folder="static") #se activa la aplicacion
+    flask = Flask(__name__,template_folder="../templates",static_folder="../static") #se activa la aplicacion
 
     flask.secret_key="1234567890" #se determina una clave secreta
 

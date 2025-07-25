@@ -43,7 +43,7 @@ def Route(aplicacion=Flask):
     def logout():  
         ''' Info: 
           Cierra la sesión.
-          retorna la redirección a la pagina home   
+          retorna la redirección a la pagina home
         ''' 
         cerrarSesion()     
         return redirect('/')
@@ -65,62 +65,42 @@ def Route(aplicacion=Flask):
 
     @aplicacion.route("/signup",methods=["GET"])
     def signup():
-        return render_template("signup.html")
+        return render_template("registrarse.html")
     
 
     
-    @aplicacion.route("/micuenta")
-    def micuenta():
-        param={}
-        return mi_cuenta(param)
-    
-
-
-    @aplicacion.route("/reservar_entradas",methods=["POST"])
-    def reservar_entradas():
-        param={}
-        return subirReservaAlSistema(param,request)
-    
-
-    
-    @aplicacion.route("/CargarDatosCliente",methods=["POST"])
+    @aplicacion.route("/CargarDatosUsuario",methods=["POST"])
     def registrar_cuenta():
         param={}
         return subirRegistroAlSistema(param,request)
     
 
   
-    @aplicacion.route("/evento", methods = ["GET"])
-    def evento():
+    @aplicacion.route("/noticia", methods = ["GET"])
+    def noticia():
         param = {}
-        return obtenerDatosDeLosEventos(request, param)
-    
-    
+        return obtenerDatosDeLasNoticias(request, param)
 
+
+
+    #mis noticias admin
     @aplicacion.route("/misentradas")
     def misentradas():
         param={}
         return mis_entradas(param)
     
+    
 
-
-    @aplicacion.route("/misventas")
-    def misventas():
+    @aplicacion.route("/nueva_noticia",methods=["POST"])
+    def nueva_noticia():
         param={}
-        return mis_ventas(param)
+        return subirNoticiaAlSistema(param,request)
     
 
 
-    @aplicacion.route("/nuevo_evento",methods=["POST"])
-    def nuevo_evento():
-        param={}
-        return subirEventoAlSistema(param,request)
-    
-
-
-    @aplicacion.route("/nuevoevento")
-    def nuevoevento():
-        return render_template("nuevoevento.html")
+    @aplicacion.route("/nuevonoticia")
+    def nuevonoticia():
+        return render_template("noticia.html")
     
 
     
@@ -165,8 +145,9 @@ def Route(aplicacion=Flask):
         return obtenerNoticiasPorCategoria("tecnologia", param)
     
     
+    """
     @aplicacion.route("/noticias")
     def noticia_individual():
         param = {}
         return obtenerNoticiaIndividual(request, param)
-    
+    """

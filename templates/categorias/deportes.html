@@ -11,12 +11,12 @@
         <div class="headerNewsCont">
             <a href="/" class="active category">INICIO</a>
             <div class="webHeader">
-                <a class="category" href="deportes.html">Deportes</a>
-                <a class="category" href="economia.html">Economía</a>
-                <a class="category" href="politica.html">Política</a>
-                <a class="category" href="sociedad.html">Sociedad</a>
-                <a class="category" href="policiales.html">Policiales</a>
-                <a class="category" href="tecno.html">Tecnología</a>
+                <a class="category" href="/deportes">Deportes</a>
+                <a class="category" href="/economia">Economía</a>
+                <a class="category" href="/politica">Política</a>
+                <a class="category" href="/sociedad">Sociedad</a>
+                <a class="category" href="/policiales">Policiales</a>
+                <a class="category" href="/tecno">Tecnología</a>
             </div>
             <div class="dropdownHeader">
                 <div class="dropdownTitle">
@@ -26,18 +26,18 @@
                     </svg>
                 </div>
                 <div class="dropdownCont">
-                    <a class="dropdownCategory" href="deportes.html">Deportes</a>
-                    <a class="dropdownCategory" href="economia.html">Economía</a>
-                    <a class="dropdownCategory" href="politica.html">Política</a>
-                    <a class="dropdownCategory" href="sociedad.html">Sociedad</a>
-                    <a class="dropdownCategory" href="policiales.html">Policiales</a>
-                    <a class="dropdownCategory" href="tecno.html">Tecnología</a>
+                    <a class="dropdownCategory" href="/deportes">Deportes</a>
+                    <a class="dropdownCategory" href="/economia">Economía</a>
+                    <a class="dropdownCategory" href="/politica">Política</a>
+                    <a class="dropdownCategory" href="/sociedad">Sociedad</a>
+                    <a class="dropdownCategory" href="/policiales">Policiales</a>
+                    <a class="dropdownCategory" href="/tecno">Tecnología</a>
                 </div>
             </div>            
         </div>
         <div class="headerUserCont">
-            <a href="../noticia.html">¡CREA TU NOTICIA!</a>
-            <a href="../login.html">INICIAR SESIÓN</a>
+            <a href="/noticia">¡CREA TU NOTICIA!</a>
+            <a href="/login">INICIAR SESIÓN</a>
         </div>
     </header>
 
@@ -53,7 +53,7 @@
         <div class="sidebar">
             <h2 class="sbTitle">Otras Noticias</h2>
             <ul>
-                {% if noticias!=[] && noticias[8]==1 %}
+                {% if noticias!=[] %}
                 {% for x in noticias %}
                     <li><a href="/noticias?id={{x[0]}}">{{x[3]}}</a></li>
                 {% endfor %}
