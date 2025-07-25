@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../static/styles.css">
     <title>Formulario</title>
 
 </head>
@@ -49,14 +49,11 @@
             <h1>¡CREA TU NOTICIA!</h1>
             <p>Completá todos los campos</p>
 
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
-
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" required>
-
             <label for="categoria">Categoría:</label>
             <input type="text" id="categoria" name="categoria" required>
+
+            <label for="fecha">Fecha y hora:</label>
+            <input type="datetime-local" id="fecha" name="fecha" required>
 
             <label for="titulo">Título:</label>
             <input type="text" id="titulo" name="titulo" required>
@@ -73,6 +70,6 @@
             <input type="submit" id="submit" value="Enviar">
         </div>
     </form>
-    <script src="ingreso01.js"></script>
+    <script src="../static/ingreso01.js"></script>
 </body>
 </html>

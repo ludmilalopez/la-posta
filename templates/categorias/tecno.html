@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css">
+    <title>Tecno</title>
+</head>
+<body>
+    <header class="topnav" id="myTopnav">
+        <div class="headerNewsCont">
+            <a href="/" class="active category">INICIO</a>
+            <div class="webHeader">
+                <a class="category" href="deportes.html">Deportes</a>
+                <a class="category" href="economia.html">Economía</a>
+                <a class="category" href="politica.html">Política</a>
+                <a class="category" href="sociedad.html">Sociedad</a>
+                <a class="category" href="policiales.html">Policiales</a>
+                <a class="category" href="tecno.html">Tecnología</a>
+            </div>
+            <div class="dropdownHeader">
+                <div class="dropdownTitle">
+                    <p class="category">Categorías</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/>
+                    </svg>
+                </div>
+                <div class="dropdownCont">
+                    <a class="dropdownCategory" href="deportes.html">Deportes</a>
+                    <a class="dropdownCategory" href="economia.html">Economía</a>
+                    <a class="dropdownCategory" href="politica.html">Política</a>
+                    <a class="dropdownCategory" href="sociedad.html">Sociedad</a>
+                    <a class="dropdownCategory" href="policiales.html">Policiales</a>
+                    <a class="dropdownCategory" href="tecno.html">Tecnología</a>
+                </div>
+            </div>            
+        </div>
+        <div class="headerUserCont">
+            <a href="../noticia.html">¡CREA TU NOTICIA!</a>
+            <a href="../login.html">INICIAR SESIÓN</a>
+        </div>
+    </header>
+
+    <div class="container-main">
+        {% if noticias[2]==4 %}
+        <div class="noticias">
+            <div class="noticia">
+                <h2>{{noticias[4]}}</h2>
+                <a href="../templates/noticiatemp.html"><img src="{{noticias[7]}}"></a>
+            </div>
+        </div>
+        {% endif %}
+        <div class="sidebar">
+            <h2 class="sbTitle">Otras Noticias</h2>
+            <ul>
+                {% if noticias!=[] && noticias[8]==1 %}
+                {% for x in noticias %}
+                    <li><a href="/noticias?id={{x[0]}}">{{x[3]}}</a></li>
+                {% endfor %}
+                {% else %}
+                    <p>Ahora mismo no hay noticias disponibles.</p>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
