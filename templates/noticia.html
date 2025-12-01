@@ -1,75 +1,130 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/styles.css">
-    <title>Formulario</title>
-
-</head>
-<body>
-    <header class="topnav" id="myTopnav">
-        <div class="headerNewsCont">
-            <a href="main.html" class="active category">INICIO</a>
-            <div class="webHeader">
-                <a class="category" href="deportes.html">Deportes</a>
-                <a class="category" href="economia.html">Economía</a>
-                <a class="category" href="politica.html">Política</a>
-                <a class="category" href="sociedad.html">Sociedad</a>
-                <a class="category" href="policiales.html">Policiales</a>
-                <a class="category" href="tecno.html">Tecnología</a>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../static/styles.css">
+        <title>Noticia</title>
+    </head>
+    <body>
+        <header class="topnav" id="myTopnav">
+            <div class="headerNewsCont">
+                <a href="/" class="active category">INICIO</a>
+                <div class="webHeader">
+                    {% for x in categoria %}
+                        {% set cid = x[0] %}
+                        {% if cid == 1 %}
+                            <a class="category" href="/policiales">{{ x[1] }}</a>
+                        {% elif cid == 2 %}
+                            <a class="category" href="/economia">{{ x[1] }}</a>
+                        {% elif cid == 3 %}
+                            <a class="category" href="/sociedad">{{ x[1] }}</a>
+                        {% elif cid == 4 %}
+                            <a class="category" href="/tecno">{{ x[1] }}</a>
+                        {% elif cid == 5 %}
+                            <a class="category" href="/politica">{{ x[1] }}</a>
+                        {% elif cid == 6 %}
+                            <a class="category" href="/deportes">{{ x[1] }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="dropdownHeader">
+                    <div class="dropdownTitle">
+                        <p class="category">Categorías</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/>
+                        </svg>
+                    </div>
+                    <div class="dropdownCont">
+                        <a class="dropdownCategory" href="/deportes">Deportes</a>
+                        <a class="dropdownCategory" href="/economia">Economía</a>
+                        <a class="dropdownCategory" href="/politica">Política</a>
+                        <a class="dropdownCategory" href="/sociedad">Sociedad</a>
+                        <a class="dropdownCategory" href="/policiales">Policiales</a>
+                        <a class="dropdownCategory" href="/tecno">Tecnología</a>
+                    </div>
+                </div>            
             </div>
-            <div class="dropdownHeader">
-                <div class="dropdownTitle">
-                    <p class="category">Categorías</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-arrow-down-short" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4" />
-                    </svg>
-                </div>
-                <div class="dropdownCont">
-                    <a class="dropdownCategory" href="deportes.html">Deportes</a>
-                    <a class="dropdownCategory" href="economia.html">Economía</a>
-                    <a class="dropdownCategory" href="politica.html">Política</a>
-                    <a class="dropdownCategory" href="sociedad.html">Sociedad</a>
-                    <a class="dropdownCategory" href="policiales.html">Policiales</a>
-                    <a class="dropdownCategory" href="tecno.html">Tecnología</a>
-                </div>
-            </div>            
+            <div class="headerUserCont">
+                {% if usuario_logueado %}
+                    {% if es_admin %}
+                        <a href="/noticiasAdm">NOTICIAS</a>
+                        <a href="/comentariosAdm">COMENTARIOS</a>
+                        <a href="/logout">CERRAR SESIÓN</a>
+                    {% else %}
+                        <a href="/nuevanoticia">¡CREA TU NOTICIA!</a>
+                        <a href="/logout">CERRAR SESIÓN</a>
+                    {% endif %}
+                {% else %}
+                    <a href="/login">INICIAR SESIÓN</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <div class="container-main">
+            {% if noticia %}
+            <div class="articulo">
+                <h1>{{ noticia.titulo }}</h1>
+                <h2>{{ noticia.subtitulo }}</h2>
+                <h3>{{ noticia.fecha_hora }}</h3>
+                {% if noticia.img %}
+                    <img src="{{ url_for('static', filename=noticia.img) }}" alt="Imagen de la noticia">
+                {% endif %}
+                <p>{{ noticia.cuerpo }}</p>
+
+                <!-- Comentarios -->
+                <section class="comentarios">
+                    <h3>Comentarios</h3>
+
+                    {% if comentarios and comentarios|length > 0 %}
+                        <ul>
+                            {% for c in comentarios %}
+                                {# c = (id, contenido, fecha_hora, usuario) #}
+                                <li>
+                                    <p><strong>{{ c[3] }}</strong> - {{ c[2] }}</p>
+                                    <p>{{ c[1] }}</p>
+                                    {% if es_admin %}
+                                        <form action="/borrar_comentario" method="POST" style="display:inline;">
+                                            <input type="hidden" name="comentario_id" value="{{ c[0] }}">
+                                            <input type="hidden" name="noticia_id" value="{{ noticia.id }}">
+                                            <button type="submit">Borrar</button>
+                                        </form>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Todavía no hay comentarios.</p>
+                    {% endif %}
+
+                    {% if usuario_logueado %}
+                        <form action="/noticia?id={{ noticia.id }}" method="POST" class="form-comentario">
+                            <label for="comentario">Dejá tu comentario (máx. 300 caracteres):</label><br>
+                            <textarea id="comentario" name="comentario" maxlength="300" required></textarea><br>
+                            <button type="submit">Enviar comentario</button>
+                        </form>
+                    {% else %}
+                        <p><a href="/login">Iniciá sesión</a> para dejar un comentario.</p>
+                    {% endif %}
+                </section>
+
+            </div>
+            {% else %}
+                <p>Ahora mismo la noticia no esta disponible.</p>
+            {% endif %}
+
+            <div class="sidebar">
+                <h2 class="sbTitle">Otras Noticias</h2>
+                <ul>
+                    {% if otras_noticias %}
+                        {% for x in otras_noticias %}
+                            <li><a href="/noticia?id={{ x[0] }}">{{ x[1] }}</a></li>
+                        {% endfor %}
+                    {% else %}
+                        <p>Ahora mismo no hay noticias disponibles.</p>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
-        <div class="headerUserCont">
-            <a href="noticia.html">¡CREA TU NOTICIA!</a>
-            <a href="login.html">INICIAR SESIÓN</a>
-        </div>
-    </header>
-
-    <form action="noticia.html" method="post" class="container sessionCont">
-        <div class="container formCont">
-            <h1>¡CREA TU NOTICIA!</h1>
-            <p>Completá todos los campos</p>
-
-            <label for="categoria">Categoría:</label>
-            <input type="text" id="categoria" name="categoria" required>
-
-            <label for="fecha">Fecha y hora:</label>
-            <input type="datetime-local" id="fecha" name="fecha" required>
-
-            <label for="titulo">Título:</label>
-            <input type="text" id="titulo" name="titulo" required>
-
-            <label for="subtitulo">Subtítulo:</label>
-            <input type="text" id="subtitulo" name="subtitulo" required>
-
-            <label for="cuerpo">Cuerpo:</label>
-            <textarea id="cuerpo" name="cuerpo" rows="6" required></textarea>
-
-            <label for="imagen">Subir Imagen:</label>
-            <input type="file" id="imagen" name="imagen" accept="image/*" required>
-
-            <input type="submit" id="submit" value="Enviar">
-        </div>
-    </form>
-    <script src="../static/ingreso01.js"></script>
-</body>
+    </body>
 </html>

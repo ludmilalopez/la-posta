@@ -1,9 +1,8 @@
-#Tiene toda la logica para acceder a la base de datos, tiene funciones que adentro tiene armadas las consultas
 from __mysql__db import * #importo las funciones que acceden a la base de datos
 from flask import request, session, redirect, render_template #importo session para el manejo de sesion
 
 
-#para obtener los datos del cliente/administrador que inicio sesion
+#para obtener los datos del usuario/administrador que inicio sesion
 def obtenerUsuarioXEmailPass(result,email,password):
     '''### Información:
        Obtiene todos los campos de la tabla usuario a partir de la clave 'email' y del 'password'.
@@ -16,8 +15,10 @@ def obtenerUsuarioXEmailPass(result,email,password):
         False caso contrario.
     '''
     res=False
-    sSql="""SELECT id, nombre,apellido,usuario,email,pass
-    FROM usuario WHERE email=%s and pass=%s;"""
+    sSql="""SELECT u.id, u.nombre, u.apellido, u.usuario, u.email, u.pass, u.id_tipo_usuario, t.tipo
+    FROM usuario u 
+    INNER JOIN tipo_usuario t ON u.id_tipo_usuario = t.id
+    WHERE u.email=%s and u.pass=%s;"""
     val=(email,password)
     fila=selectDB(BASE,sSql,val)
     if fila!=[]:
@@ -28,6 +29,8 @@ def obtenerUsuarioXEmailPass(result,email,password):
         result['usuario']=fila[0][3] 
         result['email']=fila[0][4]
         result['pass']=fila[0][5]
+        result['id_tipo_usuario']=fila[0][6]
+        result['tipo_usuario']=fila[0][7]
     return res
 
 
@@ -114,4 +117,96 @@ def obtenerDatosDeLasNoticias(request, param):
         param['noticia'] = noticia[0] if noticia else None
     else:
         param['noticia'] = None
+
+
+def obtenerCategorias(param):
+    '''### Información:
+       Obtiene todas las categorías disponibles de la base de datos
+       Carga la información obtenida de la BD en el dict 'param' bajo la clave 'categorias'
+       Recibe 'param' un diccionario donde se almacena la respuesta de la consulta
+       Retorna: La función modifica directamente el parámetro 'param' agregando la lista de categorías
+    '''
+    sSql = "SELECT id, nombre FROM categoria ORDER BY id"
+    categorias = selectDB(BASE, sSql)
+    param['categorias'] = categorias if categorias else []
+
+
+def obtenerNoticiasPendientes(param):
+    '''### Información:
+       Obtiene todas las noticias que tienen id_estado = 2 (pendientes de aprobación)
+       junto con información de la categoría y el usuario autor.
+       Carga la información obtenida de la BD en el dict 'param' bajo la clave 'noticias_pendientes'
+       Recibe 'param' un diccionario donde se almacena la respuesta de la consulta
+       Retorna: La función modifica directamente el parámetro 'param' agregando la lista de noticias pendientes
+    '''
+    sSql = """
+        SELECT n.*, c.nombre as categoria_nombre, u.nombre as autor_nombre 
+        FROM noticias n 
+        INNER JOIN categoria c ON n.id_categoria = c.id 
+        INNER JOIN usuario u ON n.id_usuario = u.id 
+        WHERE n.id_estado = 2
+        ORDER BY n.fecha_hora DESC
+    """
+    
+    noticias_pendientes = selectDB(BASE, sSql)
+    param['noticias_pendientes'] = noticias_pendientes if noticias_pendientes else []
+
+
+def actualizarEstadoNoticia(noticia_id, nuevo_estado):
+    '''### Información:
+       Actualiza el estado de una noticia específica
+       Recibe 'noticia_id' el ID de la noticia a actualizar
+       Recibe 'nuevo_estado' el nuevo estado (1=publicado, 2=pendiente, 3=rechazado)
+       Retorna: True si se actualizó correctamente, False caso contrario
+    '''
+    try:
+        sSql = "UPDATE noticias SET id_estado = %s WHERE id = %s"
+        updateDB(BASE, sSql, (nuevo_estado, noticia_id))
+        return True
+    except:
+        return False
+
+
+# insertar un nuevo comentario
+def insertarComentario(dicDatos):
+    sQuery=""" 
+        INSERT INTO comentario
+        (id,id_usuario,id_noticia,fecha_hora,contenido,id_estado)
+        VALUES
+        (%s,%s,%s,%s,%s,%s);
+    """
+
+    val=(
+        None,
+        dicDatos.get("id_usuario"),
+        dicDatos.get("id_noticia"),
+        dicDatos.get("fecha_hora"),
+        dicDatos.get("contenido"),
+        dicDatos.get("id_estado")
+    )
+    return insertDB(BASE,sQuery,val)
+
+
+# obtener comentarios publicados de una noticia
+def obtenerComentariosPorNoticia(noticia_id, param):
+        '''Obtiene comentarios PUBLICADOS (id_estado = 1) para una noticia dada.'''
+        sSql = """
+                SELECT c.id, c.contenido, c.fecha_hora, u.usuario
+                FROM comentario c
+                INNER JOIN usuario u ON c.id_usuario = u.id
+                WHERE c.id_noticia = %s AND c.id_estado = 1
+                ORDER BY c.fecha_hora DESC
+        """
+        comentarios = selectDB(BASE, sSql, (noticia_id,))
+        param['comentarios'] = comentarios if comentarios else []
+
+
+# borrar (eliminar físicamente) un comentario por id
+def borrarComentarioPorId(comentario_id):
+        try:
+                sSql = "DELETE FROM comentario WHERE id = %s"
+                updateDB(BASE, sSql, (comentario_id,))
+                return True
+        except:
+                return False
 

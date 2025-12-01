@@ -10,14 +10,26 @@
 <body>
   <header class="topnav" id="myTopnav">
     <div class="headerNewsCont">
-        <a href="main.html" class="active category">INICIO</a>
+        <a href="/" class="active category">INICIO</a>
         <div class="webHeader">
-            <a class="category" href="deportes.html">Deportes</a>
-            <a class="category" href="economia.html">Economía</a>
-            <a class="category" href="politica.html">Política</a>
-            <a class="category" href="sociedad.html">Sociedad</a>
-            <a class="category" href="policiales.html">Policiales</a>
-            <a class="category" href="tecno.html">Tecnología</a>
+            {% if categoria %}
+                {% for x in categoria %}
+                    {% set cid = x[0] %}
+                    {% if cid == 1 %}
+                        <a class="category" href="/policiales">{{ x[1] }}</a>
+                    {% elif cid == 2 %}
+                        <a class="category" href="/economia">{{ x[1] }}</a>
+                    {% elif cid == 3 %}
+                        <a class="category" href="/sociedad">{{ x[1] }}</a>
+                    {% elif cid == 4 %}
+                        <a class="category" href="/tecno">{{ x[1] }}</a>
+                    {% elif cid == 5 %}
+                        <a class="category" href="/politica">{{ x[1] }}</a>
+                    {% elif cid == 6 %}
+                        <a class="category" href="/deportes">{{ x[1] }}</a>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
         <div class="dropdownHeader">
             <div class="dropdownTitle">
@@ -27,18 +39,42 @@
                 </svg>
             </div>
             <div class="dropdownCont">
-                <a class="dropdownCategory" href="deportes.html">Deportes</a>
-                <a class="dropdownCategory" href="economia.html">Economía</a>
-                <a class="dropdownCategory" href="politica.html">Política</a>
-                <a class="dropdownCategory" href="sociedad.html">Sociedad</a>
-                <a class="dropdownCategory" href="policiales.html">Policiales</a>
-                <a class="dropdownCategory" href="tecno.html">Tecnología</a>
+                {% if categoria %}
+                    {% for x in categoria %}
+                        {% set cid = x[0] %}
+                        {% if cid == 1 %}
+                            <a class="dropdownCategory" href="/policiales">{{ x[1] }}</a>
+                        {% elif cid == 2 %}
+                            <a class="dropdownCategory" href="/economia">{{ x[1] }}</a>
+                        {% elif cid == 3 %}
+                            <a class="dropdownCategory" href="/sociedad">{{ x[1] }}</a>
+                        {% elif cid == 4 %}
+                            <a class="dropdownCategory" href="/tecno">{{ x[1] }}</a>
+                        {% elif cid == 5 %}
+                            <a class="dropdownCategory" href="/politica">{{ x[1] }}</a>
+                        {% elif cid == 6 %}
+                            <a class="dropdownCategory" href="/deportes">{{ x[1] }}</a>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>            
     </div>
     <div class="headerUserCont">
-        <a href="noticia.html">¡CREA TU NOTICIA!</a>
-        <a href="login.html">INICIAR SESIÓN</a>
+        {% if usuario_logueado %}
+            {% if es_admin %}
+                <a href="/noticiasAdm">NOTICIAS</a>
+                <a href="/comentariosAdm">COMENTARIOS</a>
+                <a href="/logout">CERRAR SESIÓN</a>
+            {% else %}
+                <a href="/noticia">¡CREA TU NOTICIA!</a>
+                <a href="/misentradas">MIS ENTRADAS</a>
+                <a href="/logout">CERRAR SESIÓN</a>
+            {% endif %}
+        {% else %}
+            <a href="/noticia">¡CREA TU NOTICIA!</a>
+            <a href="/login">INICIAR SESIÓN</a>
+        {% endif %}
     </div>
 </header>
 

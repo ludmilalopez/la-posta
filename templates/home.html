@@ -1,12 +1,11 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/styles.css">
     <title>La Posta</title>
 </head>
-
 <body>
     <header class="topnav" id="myTopnav">
         <div class="headerNewsCont">
@@ -76,29 +75,39 @@
         </div>
     </header>
 
-    <form action="/GuardarDatosPerfil" method="post" class="container sessionCont">
-        <div class="container formCont">
-            <h1>INICIAR SESIÓN</h1>
-            <p>Completá los datos de tu cuenta</p>
-            <label for="userid"><b>Email</b></label>
-            <input type="text" placeholder="Agregar email" name="userid" id="email" required>
-
-            <label for="userpassword"><b>Contraseña</b></label>
-            <input type="password" placeholder="Agregar contraseña" name="userpassword" id="contrasena" required>
-
-            <button class="formSubmit" type="submit" >INICIAR SESIÓN</button>
-            <label>
-                <input type="checkbox" checked="checked" name="remember"> Recordarme
-            </label>
+<div class="container-main">
+        <div class="noticias">
+            {% if ultimas and ultimas|length > 0 %}
+                {% for item in ultimas %}
+                    {% set cat = item.categoria %}
+                    {% set n = item.noticia %}
+                    <div class="noticia">
+                        <h2>[{{ cat[1]|upper }}] {{ n[4] }}</h2>
+                        <a href="/noticia?id={{ n[0] }}">
+                            {% if n[7] %}
+                                <img src="{{ url_for('static', filename=n[7]) }}" alt="Imagen de la noticia">
+                            {% endif %}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Ahora mismo no hay noticias disponibles.</p>
+            {% endif %}
         </div>
-    </form>
-    <div class="container2" style="background-color:#f1f1f1">
-        <div class="registerCont">
-            <p>¿Todavía no tenés una cuenta?</p>
-            <button type="button" class="registrarsebtn"
-                onclick="window.location.href='/signup'">REGISTRARSE</button>
+        <div class="sidebar">
+            <h2 class="sbTitle">Otras Noticias</h2>
+            <ul>
+                {% if ultimas and ultimas|length > 0 %}
+                    {% for item in ultimas %}
+                        {% set n = item.noticia %}
+                        <li><a href="/noticia?id={{ n[0] }}">{{ n[4] }}</a></li>
+                    {% endfor %}
+                {% else %}
+                    <p>Ahora mismo no hay noticias disponibles.</p>
+                {% endif %}
+            </ul>
         </div>
     </div>
-    <script src="../static/ingreso02.js"></script>
+
 </body>
 </html>

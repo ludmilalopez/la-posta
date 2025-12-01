@@ -41,10 +41,8 @@ submit.addEventListener("click", (event) => {
     return;
   }
 
-  const emailLower = $email.value.toLowerCase();
-  if (adminEmails.includes(emailLower)) {
-    window.location.href = "mainAdm.html";
-  } else {
-    window.location.href = "mainLog.html";
-  }
+  // Dejo que el backend Flask procese el login y haga el redirect adecuado.
+  // El formulario ya hace submit a /GuardarDatosPerfil, así que acá solo
+  // permitimos que ocurra el envío si las validaciones pasaron.
+  submit.closest('form').submit();
 });

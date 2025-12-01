@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+    <title>La Posta - Administración de Noticias</title>
+</head>
+<body>
+    <header class="topnav" id="myTopnav">
+        <div class="headerNewsCont">
+            <a href="/" class="active category">INICIO</a>
+            <div class="webHeader">
+                <a class="category" href="/deportes">Deportes</a>
+                <a class="category" href="/economia">Economía</a>
+                <a class="category" href="/politica">Política</a>
+                <a class="category" href="/sociedad">Sociedad</a>
+                <a class="category" href="/policiales">Policiales</a>
+                <a class="category" href="/tecno">Tecnología</a>
+            </div>
+            <div class="dropdownHeader">
+                <div class="dropdownTitle">
+                    <p class="category">Categorías</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/>
+                    </svg>
+                </div>
+                <div class="dropdownCont">
+                    <a class="dropdownCategory" href="/deportes">Deportes</a>
+                    <a class="dropdownCategory" href="/economia">Economía</a>
+                    <a class="dropdownCategory" href="/politica">Política</a>
+                    <a class="dropdownCategory" href="/sociedad">Sociedad</a>
+                    <a class="dropdownCategory" href="/policiales">Policiales</a>
+                    <a class="dropdownCategory" href="/tecno">Tecnología</a>
+                </div>
+            </div>            
+        </div>
+        <div class="headerUserCont">
+            <a href="/noticiasAdm">NOTICIAS</a>
+            <a href="/comentariosAdm">COMENTARIOS</a>
+            <a href="/logout">CERRAR SESIÓN</a>
+        </div>
+    </header>
+    
+    <main class="admin-main">
+        <section class="notiAdm-container">
+            <h2>ADMINISTRADOR DE NOTICIAS - NOTICIAS PENDIENTES</h2>
+            <div id="notiAdm">
+                {% if noticias_pendientes %}
+                    {% for noticia in noticias_pendientes %}
+                    <div class="notiBox">
+                        <p><strong>ID:</strong> {{noticia[0]}}</p>
+                        <p><strong>Título:</strong> {{noticia[4]}}</p>
+                        <p><strong>Subtítulo:</strong> {{noticia[5]}}</p>
+                        <p><strong>Contenido:</strong> {{noticia[6][:100]}}...</p>
+                        <p><strong>Autor:</strong> {{noticia[10]}}</p>
+                        <p><strong>Categoría:</strong> {{noticia[9]}}</p>
+                        <p><strong>Fecha:</strong> {{noticia[3]}}</p>
+                        <div class="notiStatBox">
+                            <form action="/cambiar_estado_noticia" method="POST">
+                                <input type="hidden" name="noticia_id" value="{{noticia[0]}}">
+                                <label for="notiStat{{noticia[0]}}">ESTADO</label>
+                                <select id="notiStat{{noticia[0]}}" name="nuevo_estado" onchange="this.form.submit()">
+                                    <option value="no-publicado" selected>NO PUBLICADO</option>
+                                    <option value="publicado">PUBLICADO</option>
+                                    <option value="rechazado">RECHAZADO</option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="notiBox">
+                        <p><strong>No hay noticias pendientes de aprobación</strong></p>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

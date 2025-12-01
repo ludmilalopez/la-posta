@@ -19,10 +19,9 @@ from flask import request, session,redirect,render_template
 # render_template: para renderizar las plantillas con jinja y crear paginas dinamicas
 from datetime import datetime 
 from model import * #importo las funciones de model (tienen las consultas)
-from werkzeug.utils import secure_filename #Libreria de ciberseguridad
-import os  # Gestiona acceso al sistema operativo local
-from uuid import uuid4 #Crea nombres de archivos unicos e irrepetibles
 from appConfig import config  # Archivo de configuracion de la aplicación
+import os
+from uuid import uuid4
 
 ##########################################################################
 # + + I N I C I O + + MANEJO DE  REQUEST + + + + + + + + + + + + + + + + +
@@ -124,7 +123,9 @@ def cargarSesion(dicUsuario):
     session['nombre']     = dicUsuario['nombre']
     session['apellido']   = dicUsuario['apellido']
     session['username']   = dicUsuario['usuario'] 
-    session['mail']=dicUsuario['mail']  
+    session['mail']=dicUsuario['email']
+    session['id_tipo_usuario']=dicUsuario['id_tipo_usuario']
+    session['tipo_usuario']=dicUsuario['tipo_usuario']  
 
 def crearSesion(request):
     '''info:
@@ -165,6 +166,13 @@ def cerrarSesion():
         session.clear()
     except:
         pass
+
+def esAdministrador():
+    '''info:
+        Verifica si el usuario logueado es administrador
+        Retorna True si es admin, False caso contrario
+    '''
+    return session.get("tipo_usuario") == "admin"
 
 ##########################################################################
 # - - F I N - - MANEJO DE  SESSION - - - - - - - - - - - - - - - - - - - -
@@ -211,97 +219,179 @@ def ingresoUsuarioValido(param,request):
 #- - - - - - - - - - - - -   OTRAS PAGINAS    - - - - - - - - - - - - - - -
 ##########################################################################
 
-#para mostrar las entradas de algun cliente
-def mis_entradas(param):
-    ''' Info:
-        Carga la pagina de mis entradas
-        Retorna la pagina misentradas, si hay sesion; sino retorna la home.
-    '''
-    if haySesion():       # hay session?            
-        # Confecciona la pagina en cuestion
-        param['page-header']=""
-        obtenerEntradasClientePorID(param)
-        res= render_template('misentradas.html',param=param)
-    else:
-        res= redirect('/')   # redirigir al home o a la pagina del login
-    return res 
-
-
-#para mostrar los datos de la cuenta que este activa
-def mi_cuenta(param):
-    ''' Info:
-        Carga la pagina de micuenta
-        Retorna la pagina micuenta, si hay sesion; sino retorna la home.
-    '''
-    if haySesion():       # hay session?            
-        # Confecciona la pagina en cuestion
-        param['page-header']=""
-        obtenerDatosDeLaCuenta(param)
-        res= render_template('micuenta.html',param=param)
-    else:
-        res= redirect('/')   # redirigir al home 
-    return res
-
-
-# Para mostrar el evento sin tener que hacerle un html particular
+# Para mostrar la noticia sin tener que hacerle un html particular
 def noticia(param):
-    if haySesion(): 
-        param['page-header']=""
-        obtenerDatosDeLasNoticias(request, param)
-        res = render_template('evento.html',param=param)
+    # Página de detalle de una noticia individual + comentarios
+    mireq = {}
+    getRequest(mireq)
+
+    # ID de la noticia
+    noticia_id = mireq.get("id")
+
+    # Si viene un POST y hay sesión, procesar nuevo comentario
+    if request.method == 'POST' and haySesion() and noticia_id:
+        texto = mireq.get("comentario", "").strip()
+        if texto != "":
+            # limitar a 300 caracteres por seguridad
+            texto = texto[:300]
+            dic = {
+                "id_usuario": session.get("id_usuario"),
+                "id_noticia": int(noticia_id),
+                "fecha_hora": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "contenido": texto,
+                "id_estado": 1  # PUBLICADO
+            }
+            insertarComentario(dic)
+        # evitar reenvío de formulario
+        return redirect(f"/noticia?id={noticia_id}")
+
+    # Obtener la noticia principal
+    param['page-header'] = ""
+    obtenerDatosDeLasNoticias(request, param)
+    noticia = param.get('noticia')
+
+    # Cargar categorías y flags de usuario para el header
+    obtenerCategorias(param)
+    categorias = param.get('categorias', [])
+    es_admin = esAdministrador()
+    usuario_logueado = haySesion()
+
+    # Otras noticias (sidebar): todas las publicadas menos la actual
+    otras_noticias = []
+    if noticia_id:
+        sSql = """
+            SELECT n.id, n.titulo
+            FROM noticias n
+            WHERE n.id_estado = 1 AND n.id <> %s
+            ORDER BY n.fecha_hora DESC
+        """
+        otras_noticias = selectDB(BASE, sSql, (noticia_id,)) or []
     else:
-        res = redirect('/')
+        sSql = """
+            SELECT n.id, n.titulo
+            FROM noticias n
+            WHERE n.id_estado = 1
+            ORDER BY n.fecha_hora DESC
+        """
+        otras_noticias = selectDB(BASE, sSql) or []
+
+    # Comentarios de la noticia
+    comentarios_param = {}
+    if noticia_id:
+        obtenerComentariosPorNoticia(int(noticia_id), comentarios_param)
+    comentarios = comentarios_param.get('comentarios', [])
+
+    return render_template(
+        'noticia.html',
+        noticia=noticia,
+        otras_noticias=otras_noticias,
+        comentarios=comentarios,
+        categoria=categorias,
+        es_admin=es_admin,
+        usuario_logueado=usuario_logueado
+    )
 
 
-#para insertar en la tabla 'reserva' una nueva compra
-def subirReservaAlSistema(dicDatos,request):
-    mirequest={}
-    dicDatos={}
+def borrarComentario(request):
+    '''Permite al admin borrar un comentario por id.'''
+    if not haySesion() or not esAdministrador():
+        return redirect('/login')
+
+    mireq = {}
+    getRequest(mireq)
+    comentario_id = mireq.get("comentario_id")
+    noticia_id = mireq.get("noticia_id")
+
+    if comentario_id:
+        try:
+            borrarComentarioPorId(int(comentario_id))
+        except:
+            pass
+
+    # Volver a la noticia de origen si tenemos el id
+    if noticia_id:
+        return redirect(f"/noticia?id={noticia_id}")
+    return redirect('/')
+
+
+"""Noticias creadas por usuarios"""
+
+def mostrarFormularioNuevaNoticia():
+    """Muestra el formulario para crear una nueva noticia.
+
+    Solo usuarios logueados pueden acceder. Las categorías se cargan
+    dinámicamente para que el usuario elija.
+    """
+    if not haySesion():
+        return redirect('/login')
+
+    param = {}
+    obtenerCategorias(param)
+    categorias = param.get('categorias', [])
+    es_admin = esAdministrador()
+    usuario_logueado = haySesion()
+
+    return render_template(
+        "nuevanoticia.html",
+        categoria=categorias,
+        es_admin=es_admin,
+        usuario_logueado=usuario_logueado
+    )
+
+
+def subirNoticiaAlSistema(dicDatos, request):
+    """Recibe los datos del formulario de nueva noticia y los guarda como PENDIENTE.
+
+    - Requiere usuario logueado.
+    - Usa id_estado = 2 (pendiente), para que el admin luego la apruebe
+      desde la pantalla de administración de noticias.
+    """
+    if not haySesion():
+        return redirect('/login')
+
+    mirequest = {}
     getRequest(mirequest)
-    reserva_realizada=False
-    dicDatos["id_cliente"]=session.get("id_usuario")
-    dicDatos["id_evento"]=mirequest["evId"]
-    dicDatos["id_estado"]=1 #tomamos como que al hacer la reserva se la entrega automaticamente
-    dicDatos["id_tipo_entrada"]=""
-    dicDatos["cantidad_entradas"]=""
 
-    if mirequest.get("cantidad_campo")=="1" or mirequest.get("cantidad_campo")=="2":
-        if mirequest.get("cantidad_campo")=="1":
-            dicDatos["cantidad_entradas"]=1
-            dicDatos["id_tipo_entrada"]=1
-        else:
-            dicDatos["cantidad_entradas"]=2
-            dicDatos["id_tipo_entrada"]=1
+    # Subida de imagen (opcional, pero la plantilla la marca como requerida)
+    files_info = {}
+    upload_file(files_info)
 
-        insertarReserva(dicDatos)
-        reserva_realizada=True
+    # Resolver ruta de imagen si se subió correctamente
+    img_path = None
+    if "imagen" in files_info and not files_info["imagen"].get("file_error", False):
+        img_path = "uploads/" + files_info["imagen"]["file_name_new"]
 
-    if mirequest.get("cantidad_vip")=="1" or mirequest.get("cantidad_vip")=="2":
-        if mirequest.get("cantidad_vip")=="1":
-            dicDatos["cantidad_entradas"]=1
-            dicDatos["id_tipo_entrada"]=2
-        else:
-            dicDatos["cantidad_entradas"]=2
-            dicDatos["id_tipo_entrada"]=2
-        
-        insertarReserva(dicDatos)
-        reserva_realizada=True
+    # Construir diccionario para insertar en la tabla noticias
+    dicDatos = {}
+    dicDatos["id_usuario"] = session.get("id_usuario")
+    dicDatos["id_categoria"] = int(mirequest.get("id_categoria")) if mirequest.get("id_categoria") else None
+    dicDatos["fecha_hora"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    dicDatos["titulo"] = mirequest.get("titulo")
+    dicDatos["subtitulo"] = mirequest.get("subtitulo")
+    dicDatos["cuerpo"] = mirequest.get("cuerpo")
+    dicDatos["img"] = img_path
+    dicDatos["id_estado"] = 2  # 2 = pendiente de aprobación
 
-    if mirequest.get("cantidad_platea")=="1" or mirequest.get("cantidad_platea")=="2":
-        if mirequest.get("cantidad_platea")=="1":
-            dicDatos["cantidad_entradas"]=1
-            dicDatos["id_tipo_entrada"]=3
-        else:
-            dicDatos["cantidad_entradas"]=2
-            dicDatos["id_tipo_entrada"]=3
-        
-        insertarReserva(dicDatos)
-        reserva_realizada=True
+    res = insertarNoticias(dicDatos)
 
-    if not reserva_realizada:
-        return render_template("checkout.html",mensaje="No has reservado ningun evento", req=mirequest)
-    
-    return render_template("checkout.html",mensaje="Tu reserva fue exitosa", req=mirequest)
+    if res:
+        mensaje = "Tu noticia fue enviada y quedará pendiente de aprobación por un administrador."
+    else:
+        mensaje = "Ocurrió un error al enviar tu noticia. Intentalo nuevamente."
+
+    param = {}
+    obtenerCategorias(param)
+    categorias = param.get('categorias', [])
+    es_admin = esAdministrador()
+    usuario_logueado = haySesion()
+
+    return render_template(
+        "nuevanoticia.html",
+        categoria=categorias,
+        es_admin=es_admin,
+        usuario_logueado=usuario_logueado,
+        mensaje=mensaje
+    )
 
 
 #para insertar en la tabla 'cliente' un nuevo registro
@@ -321,86 +411,74 @@ def subirRegistroAlSistema(dicDatos,request):
     return render_template("signup.html",error="El mail o usuario ya existen")
 
 
-#para insertar en la tabla 'evento' un nuevo evento
-def subirEventoAlSistema(dicDatos,request):
-    mirequest={}
-    dicDatos={}
-    getRequest(mirequest)
-    upload_file(mirequest)
-    dicDatos["nombre"]=mirequest.get("nombre")
-    dicDatos["img"]="static/uploads/"+mirequest.get("flyer")["file_name_new"]
-    dicDatos["fecha"]=mirequest.get("fechaEvento")
-    dicDatos["hora"]=mirequest.get("horario")
-    dicDatos["fecha-hora"]=dicDatos["fecha"]+" "+dicDatos["hora"]
-    dicDatos["descripcion"]=mirequest.get("descripcion")
-    dicDatos["precio_campo"]=mirequest.get("precioCampo")
-    dicDatos["precio_vip"]=mirequest.get("precioVip")
-    dicDatos["precio_platea"]=mirequest.get("precioPlatea")
-    dicDatos["cant_entradas"]=mirequest.get("entradas")
-    dicDatos["id_tipo_evento"]=mirequest.get("tipoEvento")
-    dicDatos["ubicacion"]=mirequest.get("ubiEvento")
-
-    
-    res=insertarEvento(dicDatos)
-
-    if res:
-        return render_template("checkoutEvento.html",mensaje="El evento se subio exitosamente")
-    else:
-        return render_template("checkoutEvento.html",mensaje="No se pudo subir el evento correctamente")
-
-
-# Para mostrar los eventos
-def obtenerDatosDeLosEventos(req, param):
-    mireq={}
-    getRequest(mireq)
-    evento = selectDB(BASE,"SELECT * FROM evento WHERE id = %s", (mireq["id"],))
-    if(evento!=[]):
-        evento = evento=evento[0]
-    return render_template("evento.html", param=param, evento=evento)
-
-
 # Pagina principal
 def paginaPrincipal():
-    noticias = selectDB(BASE,"SELECT * FROM noticias")
-    return render_template("main.html", noticias=noticias)
+    # Param base y datos generales
+    param = {}
+    obtenerNoticiasPorID(param)   # todas las noticias publicadas
+    obtenerCategorias(param)      # todas las categorías
+    todas_noticias = param.get('noticias', [])
+    categorias = param.get('categorias', [])
 
-# Obtener noticias por categoría
-def obtenerNoticiasPorCategoria(categoria_nombre, param):
-    # Mapeo de categorías a nombres de archivos de plantilla
-    categoria_template_map = {
-        "economia": "categorias/economia.html",
-        "deportes": "categorias/deportes.html", 
-        "policial": "categorias/policiales.html",
-        "politica": "categorias/politica.html",
-        "sociedad": "categorias/sociedad.html",
-        "tecnologia": "categorias/tecno.html"
+    # Construir diccionario: última noticia por categoría (id_categoria)
+    ultimas_por_categoria = {}
+    for n in todas_noticias:
+        # n = SELECT n.*, c.nombre, u.nombre =>
+        # índices base de la tabla noticias:
+        # 0:id, 1:id_usuario, 2:id_categoria, 3:fecha_hora, 4:titulo,
+        # 5:subtitulo, 6:cuerpo, 7:img, 8:id_estado, 9:categoria_nombre, 10:autor_nombre
+        cat_id = n[2]
+        # Como vienen ordenadas DESC por fecha_hora, la primera que vemos por categoría es la última
+        if cat_id not in ultimas_por_categoria:
+            ultimas_por_categoria[cat_id] = n
+
+    # Armar lista ordenada por nombre de categoría para el template
+    ultimas = []
+    for cat in categorias:
+        # cat = (id, nombre)
+        cid = cat[0]
+        if cid in ultimas_por_categoria:
+            ultimas.append({
+                'categoria': cat,         # tupla (id, nombre)
+                'noticia': ultimas_por_categoria[cid]  # fila completa de noticias
+            })
+
+    es_admin = esAdministrador()
+    usuario_logueado = haySesion()
+
+    return render_template(
+        "home.html",
+        ultimas=ultimas,              # lista de {'categoria': (id,nombre), 'noticia': fila}
+        categoria=categorias,
+        es_admin=es_admin,
+        usuario_logueado=usuario_logueado
+    )
+
+""" Obtener noticias por categoría usando slug y plantilla unica categoria.html """
+def obtenerNoticiasPorCategoriaSlug(slug, param):
+    # Mapear slug a nombre real de categoría en la BD
+    slug_map = {
+        "deportes": "Deportes",
+        "economia": "Economía",
+        "policiales": "Policiales",
+        "politica": "Política",
+        "sociedad": "Sociedad",
+        "tecno": "Tecnología",
     }
-    
-    # Obtener noticias de la categoría específica
-    noticias = selectDB(BASE, """
-        SELECT n.*, c.nombre as categoria_nombre, u.nombre as autor_nombre 
-        FROM noticias n 
-        INNER JOIN categoria c ON n.id_categoria = c.id 
-        INNER JOIN usuario u ON n.id_usuario = u.id 
-        WHERE c.nombre = %s AND n.id_estado = 1
-        ORDER BY n.fecha_hora DESC
-    """, (categoria_nombre,))
-    
-    # Obtener el template correcto
-    template_name = categoria_template_map.get(categoria_nombre)
-    
-    # Si no encuentra la categoría en el mapeo, intentar construir el nombre dinámicamente
-    if not template_name:
-        # Intentar construir el nombre del template basado en la categoría
-        if categoria_nombre == "policial":
-            template_name = "categorias/policiales.html"
-        elif categoria_nombre == "tecnologia":
-            template_name = "categorias/tecno.html"
-        else:
-            # Para otras categorías, usar el nombre directamente
-            template_name = f"categorias/{categoria_nombre}.html"
-    
-    return render_template(template_name, param=param, noticias=noticias)
+
+    nombre_categoria = slug_map.get(slug)
+    if not nombre_categoria:
+        return redirect("/")
+
+    # Buscar id de la categoría
+    fila = selectDB(BASE, "SELECT id, nombre FROM categoria WHERE nombre = %s", (nombre_categoria,))
+    if not fila:
+        return redirect("/")
+
+    categoria_id = fila[0][0]
+
+    # Reusar la lógica existente por id
+    return obtenerNoticiasPorCategoriaID(categoria_id, param)
 
 # Obtener una noticia individual por ID
 def obtenerNoticiaIndividual(req, param):
@@ -418,3 +496,82 @@ def obtenerNoticiaIndividual(req, param):
         noticia = noticia[0]
     
     return render_template("noticiatemp.html", param=param, noticia=noticia)
+
+
+# Obtener noticias por ID de categoría
+def obtenerNoticiasPorCategoriaID(categoria_id, param):
+    # Obtener noticias de la categoría específica por ID (todas las publicadas)
+    noticias = selectDB(BASE, """
+        SELECT n.*, c.nombre as categoria_nombre, u.nombre as autor_nombre 
+        FROM noticias n 
+        INNER JOIN categoria c ON n.id_categoria = c.id 
+        INNER JOIN usuario u ON n.id_usuario = u.id 
+        WHERE c.id = %s AND n.id_estado = 1
+        ORDER BY n.fecha_hora DESC
+    """, (categoria_id,))
+
+    # Obtener también todas las categorías para el header
+    obtenerCategorias(param)
+    categorias = param.get('categorias', [])
+
+    # Buscar el nombre de la categoría actual para el título
+    categoria_actual = None
+    for c in categorias:
+        if c[0] == int(categoria_id):
+            categoria_actual = c
+            break
+
+    es_admin = esAdministrador()
+    usuario_logueado = haySesion()
+
+    return render_template(
+        "categoria.html",
+        categoria_actual=categoria_actual,
+        noticias=noticias,
+        categoria=categorias,
+        es_admin=es_admin,
+        usuario_logueado=usuario_logueado
+    )
+
+
+def paginaAdminNoticias():
+    '''Función para mostrar la página de administración de noticias'''
+    if not haySesion() or not esAdministrador():
+        return redirect('/login')
+    
+    param = {}
+    obtenerNoticiasPendientes(param)
+    noticias_pendientes = param.get('noticias_pendientes', [])
+    
+    return render_template("noticiasAdm.html", 
+                          noticias_pendientes=noticias_pendientes,
+                          es_admin=True,
+                          usuario_logueado=True)
+
+
+def procesarCambioEstadoNoticia(request):
+    '''Función para procesar el cambio de estado de una noticia'''
+    if not haySesion() or not esAdministrador():
+        return redirect('/login')
+    
+    mireq = {}
+    getRequest(mireq)
+    
+    noticia_id = mireq.get("noticia_id")
+    nuevo_estado = mireq.get("nuevo_estado")
+    
+    if noticia_id and nuevo_estado:
+        # Convertir estado text a número
+        if nuevo_estado == "publicado":
+            estado_num = 1
+        elif nuevo_estado == "no-publicado":
+            estado_num = 2
+        else:
+            estado_num = 3  # rechazado
+            
+        if actualizarEstadoNoticia(noticia_id, estado_num):
+            return redirect('/noticiasAdm?success=1')
+        else:
+            return redirect('/noticiasAdm?error=1')
+    
+    return redirect('/noticiasAdm')
